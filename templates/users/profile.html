@@ -2,71 +2,83 @@
 {% block title %}Profile Page{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container">
-    <div class="row mt-5 pt-3">
-        <div class="col-md-6 offset-md-3">
-            <div class="card my-3 shadow">
-                <div class="card-body">
-                    <span class="h4">Profile Page</span>
-                    <!-- Button trigger modal -->
-                    <span>
-                        <button type="button" class="btn btn-info float-right btn-sm" data-toggle="modal"
-                            data-target="#exampleModal">
-                            Edit Profile
-                        </button>
-                    </span>
 
+<div class="flex justify-center mt-12">
+    <div class="w-full max-w-lg bg-white shadow-xl rounded-lg p-6 border border-gray-200">
+        <div class="flex justify-between items-center">
+            <h2 class="text-3xl font-bold text-gray-900">Profile</h2>
+            <button type="button" 
+                class="bg-sky-900 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition duration-300"
+                onclick="toggleModal()">
+                Edit Profile
+            </button>
+        </div>
 
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="img-thumbnail" src="{{ user.profilemodel.image.url }}" alt="profile-img">
-                        </div>
-                        <div class="col-md-8">
-                            <h4>Name: {{ user.username }}</h4>
-                            <h4>Email: {{ user.email }} </h4>
-                        </div>
-                    </div>
-                </div>
+        <hr class="my-4 border-gray-300">
+
+        <div class="flex items-center gap-6">
+            <img class="w-28 h-28 rounded-full border-4 border-gray-300 shadow-md" src="{{ user.profilemodel.image.url }}" alt="Profile Image">
+            <div class="space-y-2">
+                <h4 class="text-lg font-semibold text-gray-800">Name: <span class="text-gray-600">{{ user.username }}</span></h4>
+                <h4 class="text-lg font-semibold text-gray-800">Email: <span class="text-gray-600">{{ user.email }}</span></h4>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Profile Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="img-thumbnail" src="{{ user.profilemodel.image.url }}" alt="">
-                    </div>
-                    <div class="col-md-8">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ u_form|crispy }}
-                            {{ p_form|crispy }}
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm"
-                                    data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300" id="editProfileModal">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 border border-gray-200 transform scale-95 opacity-0 transition-all duration-300 ease-in-out">
+        <div class="flex justify-between items-center border-b pb-3">
+            <h3 class="text-xl font-semibold text-gray-900">Edit Profile</h3>
+            <button class="text-gray-600 hover:text-gray-800 text-2xl" onclick="toggleModal()">&times;</button>
+        </div>
 
+        <div class="flex gap-4 mt-5">
+            <img class="w-24 h-24 rounded-full border-2 border-gray-300 shadow-md" src="{{ user.profilemodel.image.url }}" alt="Profile Image">
+            <form method="POST" enctype="multipart/form-data" class="w-full space-y-4">
+                {% csrf_token %}
+                
+                <!-- Username Field -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}"
+                           class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                           required>
+                </div>
+            
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}"
+                           class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                           required>
+                </div>
+               
+                <div class="flex justify-end mt-4 space-x-2">
+                    <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-400 transition"
+                        onclick="toggleModal()">Cancel</button>
+                    <button type="submit" class="bg-sky-900 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    function toggleModal() {
+        const modal = document.getElementById("editProfileModal");
+        modal.classList.toggle("hidden");
+        if (!modal.classList.contains("hidden")) {
+            modal.children[0].classList.remove("scale-95", "opacity-0");
+            modal.children[0].classList.add("scale-100", "opacity-100");
+        } else {
+            modal.children[0].classList.add("scale-95", "opacity-0");
+            modal.children[0].classList.remove("scale-100", "opacity-100");
+        }
+    }
+</script>
+
 {% endblock %}

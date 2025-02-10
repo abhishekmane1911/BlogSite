@@ -1,20 +1,41 @@
 {% extends 'partials/base.html' %}
-{% block title %}Post Edit Page{% endblock %}
+{% block title %}Edit Post{% endblock %}
 {% load crispy_forms_tags %}
+
 {% block content %}
-<div class="container">
-    <div class="row mt-5 pt-3">
-        <div class="col-md-8 offset-md-2">
-            <div class="card my-3 shadow">
-                <div class="card-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <input class="btn btn-primary btn-sm" type="submit" value="Save">
-                    </form>
-                </div>
+<div class="flex justify-center items-center min-h-screen ">
+    <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6 transition-all duration-300">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">
+            Edit Your Post
+        </h2>
+
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {% for field in form %}
+                 <div>
+                     <label class="block text-gray-700 font-medium mb-1 border-full border-y-4 border-sky-800">
+                         {{ field.label }}
+                     </label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <p class="text-red-500 text-sm mt-1 ">{{ field.errors.0 }} </p>
+                    {% endif %}
+                 </div>
+                 {% endfor %}
             </div>
-        </div>
+
+            <div class="flex justify-end space-x-4">
+                <a href="{% url 'blog-post-detail' post.id %}"
+                   class="px-5 py-2 text-gray-700 bg-gray-200 rounded-lg transition-all duration-200 hover:bg-rose-700  hover:text-white">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="px-5 py-2 bg-sky-900 text-white font-semibold rounded-lg shadow-md transition-all duration-200 hover:bg-blue-700">
+                    Save
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

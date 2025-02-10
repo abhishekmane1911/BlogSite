@@ -1,33 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-primary bg-primary fixed-top">
-    <div class="container">
+<nav class="bg-gradient-to-r from-blue-500 to-indigo-600 fixed top-0 w-full z-10 shadow-lg">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         {% if request.user.is_authenticated %}
-        <a class="navbar-brand text-white" href="{% url 'blog-index' %}">PostScribers</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <a class="text-white text-2xl font-semibold" href="{% url 'blog-index' %}">BlogSite</a>
+        
+        <div class="flex items-center space-x-6">
+            <a class="text-white text-lg hover:text-gray-800" href="{% url 'users-profile' %}">Profile</a>
+            <form method="POST" action="{% url 'users-logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-white text-lg hover:text-gray-800">Logout</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="flex items-center space-x-6">
+            <a class="text-white text-lg hover:text-blue-200" href="{% url 'users-sign-up' %}">Sign Up</a>
+            <a class="text-white text-lg hover:text-blue-200" href="{% url 'users-login' %}">Login</a>
+        </div>
+        {% endif %}
+        
+        <button class="text-white block lg:hidden" id="navbar-toggle" aria-label="Toggle navigation">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
         </button>
+    </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="{% url 'users-profile' %}">Profile <span
-                            class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'users-logout' %}">Logout</a>
-                </li>
-            </ul>
-            {% else %}
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="{% url 'users-sign-up' %}">Sign Up <span
-                            class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'users-login' %}">Login</a>
-                </li>
-            </ul>
-            {% endif %}
+    <div class="lg:hidden w-full bg-blue-600 absolute top-full left-0 z-10 hidden" id="navbarMenu">
+        <div class="flex justify-center">
+            <div class="flex flex-col items-center py-4">
+                {% if request.user.is_authenticated %}
+                <a class="text-white text-lg py-2" href="{% url 'users-profile' %}">Profile</a>
+                <a class="text-white text-lg py-2" href="{% url 'users-logout' %}">Logout</a>
+                {% else %}
+                <a class="text-white text-lg py-2" href="{% url 'users-sign-up' %}">Sign Up</a>
+                <a class="text-white text-lg py-2" href="{% url 'users-login' %}">Login</a>
+                {% endif %}``
+            </div>
         </div>
     </div>
 </nav>
+<h1>
+
+

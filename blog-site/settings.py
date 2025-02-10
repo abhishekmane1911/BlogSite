@@ -28,7 +28,7 @@ SECRET_KEY = 'ql&qi^8lb2=176&((yt-9zvs784ka^toyibq*9)gd1i40(es_+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.213.7.117', 'localhost', '127.0.0.1','*']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [

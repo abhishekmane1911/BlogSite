@@ -4,3 +4,28 @@
     background-size: cover;
     height: 100vh;
 }
+
+/* Hover effect for cards */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Button hover effect */
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Read more button style */
+.btn-outline-primary:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Responsive tweaks for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        border-radius: 10px;
+    }
+}
